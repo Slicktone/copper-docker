@@ -1,0 +1,57 @@
+version: '3'
+services:
+# NGINX
+  nginx:
+    build: 
+      context: /requirements/nginx
+      dockerfile: Dockerfile.nginx
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
+# OPENSSL
+  openssl:
+    build:
+      context: /requirements/nginx
+      dockerfile: Dockerfile.openssl
+
+# WORDPRESS
+  wordpress:
+    build:
+      context: /requirements/wordpress
+      dockerfile: Dockerfile.wordpress
+    restart: unless-stopped
+    #ports:
+    #- "443:443"
+    volumes:
+    - /requirements:/var/www/html
+    networks:
+    - copper_project
+
+# MARIADB
+  mariadb:
+    build:
+      context: /requirements/mariadb
+      dockerfile: Dockerfile.mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: tclay
+      MYSQL_PASSWORD: tony
+     # Creating and mounting volume 
+    volumes:
+    - mariadb-data:/var/lib/mysql
+    # ports:
+    #- "443:443"
+    networks:
+    - copper_project
+
+# Defining the db-data
+volumes:
+  mariadb-data:
+  wordpress-data:
+
+networks:
+  copper_project:
+    external: false
+    driver: bridge

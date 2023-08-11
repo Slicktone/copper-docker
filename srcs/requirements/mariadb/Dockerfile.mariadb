@@ -1,0 +1,15 @@
+ FROM mariadb:10.11.4
+
+# MYSQL Port - not sure if needed for this project
+EXPOSE 443
+
+# ENV variables to configure - CHANGE THESE
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_USER=tclay
+ENV MYSQL_PASSWORD=tony
+
+# Entrypoint just in case
+# COPY entrypoint.sh /docker-entrypoint-initdb.d/entrypoint.sh
+# RUN chmod +x /docker-entrypoint-initdb.d/entrypoint.sh
+
+CMD ["mysqld"]
