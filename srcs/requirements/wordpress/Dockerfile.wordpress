@@ -13,7 +13,7 @@ RUN wget https://wordpress.org/wordpress-6.3.tar.gz && \
     tar -xzvf wordpress-6.3.tar.gz --strip-components=1 && \
     rm wordpress-6.3.tar.gz
 
-# Configure PHP=FPM
+# Configure PHP+FPM
 COPY php-fpm.conf /etc/php8/php-fpm.conf
 COPY www.conf /etc/php8/php-fpm.d/www.conf
 

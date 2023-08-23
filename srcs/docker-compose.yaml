@@ -5,15 +5,21 @@ services:
     build: 
       context: /requirements/nginx
       dockerfile: Dockerfile.nginx
+    volumes:
+    - './srcs/requirements/nginx/nginx.conf:/etc/conf.d'
+    - './srcs/requirements/php/Dockerfile.php:var/www.html'
     restart: unless-stopped
     ports:
     - "80:80"
     - "443:443"
+    depends_on:
+      - php
+
 # OPENSSL
-  openssl:
-    build:
-      context: /requirements/nginx
-      dockerfile: Dockerfile.openssl
+#  openssl:
+#    build:
+#      context: /requirements/nginx
+#      dockerfile: Dockerfile.openssl
 
 # WORDPRESS
   wordpress:
