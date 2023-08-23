@@ -1,30 +1,25 @@
 DOCKER_USERNAME ?= tclayton
-APPLICATION_NAME ?= copper-project
- 
-build:
-         docker build --tag ${DOCKER_USERNAME}/${APPLICATION_NAME} .
+APP_NAME ?= copper-docker
 
-# You can now run just 'make build' instead of 'docker build --tag username/hello-world' .
- or
+# run 'make build' to build
+
 # Build the container with docker-compose
-build: ## Build the release and develoment container.
-	docker-compose build $(APP_NAME)
+build:
+	docker-compose build -d --tag $(APP_NAME)
 
 # Build and run the container
-up: ## Spin up the project
+up:
 	docker-compose up --build $(APP_NAME)
 
-IMAGE_NAME = my-nginx-container
-
 build:
-    docker build -t $(IMAGE_NAME) .
+    docker build -t $(APP_NAME) .
 
 run:
-    docker run -d -p 80:80 -p 443:443 $(IMAGE_NAME)
+    docker run -d -p 80:80 -p 443:443 $(APP_NAME)
 
 stop:
-    docker stop $$(docker ps -q --filter ancestor=$(IMAGE_NAME))
+    docker stop $$(docker ps -q --filter ancestor=$(APP_NAME))
 
 clean:
-    docker rm $$(docker ps -a -q --filter ancestor=$(IMAGE_NAME))
-    docker rmi $(IMAGE_NAME)
+    docker rm $$(docker ps -a -q --filter ancestor=$(APP_NAME))
+    docker rmi $(APP_NAME)
