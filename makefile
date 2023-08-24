@@ -1,25 +1,24 @@
+##If using windows, install chocolatey and run 'choco install make'
+
 DOCKER_USERNAME ?= tclayton
 APP_NAME ?= copper-docker
 
-# run 'make build' to build
+#run 'make build' to build
 
-# Build the container with docker-compose
+#Build the container with docker-compose
 build:
-	docker-compose build -d --tag $(APP_NAME)
+	docker-compose build $(APP_NAME)
 
-# Build and run the container
+#Build and run the container
 up:
-	docker-compose up --build $(APP_NAME)
-
-build:
-    docker build -t $(APP_NAME) .
+	docker-compose up --build -d $(APP_NAME)
 
 run:
-    docker run -d -p 80:80 -p 443:443 $(APP_NAME)
+	docker-compose run -d -p 80:80 -p 443:443 $(APP_NAME)
 
 stop:
-    docker stop $$(docker ps -q --filter ancestor=$(APP_NAME))
+	docker stop $$(docker ps -q --filter ancestor=$(APP_NAME))
 
 clean:
-    docker rm $$(docker ps -a -q --filter ancestor=$(APP_NAME))
-    docker rmi $(APP_NAME)
+	docker rm $$(docker ps -a -q --filter ancestor=$(APP_NAME))
+	docker rmi $(APP_NAME)
